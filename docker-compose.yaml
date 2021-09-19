@@ -1,0 +1,33 @@
+version: '3'
+
+#Docker Networks, create this network if it doesn't exists using `docker network create lets-vote-network`
+networks:
+  lets-vote-network:
+    external:
+      name: lets-vote-network
+
+services:
+  lets-vote-api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - "./api/:/var/www/app"
+    ports:
+      - "${API_EXTERNAL_PORT}:9000"
+    container_name: 'lets-vote-api'
+    networks:
+      - lets-vote-network
+  lets-vote-db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+    ports:
+      - "${MYSQL_EXTERNAL_PORT}:3306"
+    networks:
+      - lets-vote-network
+    container_name: lets-vote-db
