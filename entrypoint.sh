@@ -21,6 +21,9 @@ then
 fi
 
 # this is for development env Only
+php artisan clear-compiled
+composer dump-autoload
+php artisan optimize
 php artisan migrate
 #php artisan key:generate #TODO: ensure correct permissions inside container before updating .env
 php artisan config:cache
