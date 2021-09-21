@@ -25,7 +25,7 @@ class ItemTest extends TestCase
         $response->assertStatus(422);
 
         $response = $this->postJson('/api/item', $correctPayload);
-        $response->assertStatus(200);
+        $response->assertStatus(200); //todo should be 201
 
         $response = $this->get('/api/item/1');
         $response->assertStatus(200);
