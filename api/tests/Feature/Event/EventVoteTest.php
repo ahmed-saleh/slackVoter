@@ -16,6 +16,7 @@ class EventVoteTest extends TestCase
     public function testEvent()
     {
         $items = Item::factory(2)->create();
+        $newItem = Item::factory(1)->create();
         $event = Event::factory(1)->create()[0];
 
         foreach ($items as $singleItem) {
@@ -37,6 +38,9 @@ class EventVoteTest extends TestCase
 
         $response = $this->put('/api/event/1/vote', ['item_id' => 1, 'action' => 'remove']);
         $response->assertStatus(200);
+
+        $response = $this->put('/api/event/1/vote', ['item_id' => $newItem[0]['id'], 'action' => 'remove']);
+        $response->assertStatus(422);
 
         $response = $this->get('/api/event/1');
         $res = $response->json();

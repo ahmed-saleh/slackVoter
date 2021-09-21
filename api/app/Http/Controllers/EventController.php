@@ -101,16 +101,16 @@ class EventController extends Controller
     {
         $payload = $request->all();
         $event = Event::findOrFail($id);
-        $record = $event->items()->where('id', $payload['item_id']);
+        $record = $event->items()->where('item_id', $payload['item_id'])->first();
         if(empty($record)){
-            response('Item is not In this event', 422);
+            return response('Item is not In this event', 422);
         }
         try {
             DB::beginTransaction();
             if($payload['action'] === EventActions::Add) {
-                $event->items()->newPivotStatement()->where('id', $payload['item_id'])->increment('vote_count');
+                $event->items()->newPivotStatement()->where('item_id', $payload['item_id'])->increment('vote_count');
             } else {
-                $event->items()->newPivotStatement()->where('id', $payload['item_id'])->decrement('vote_count');
+                $event->items()->newPivotStatement()->where('item_id', $payload['item_id'])->decrement('vote_count');
             }
             DB::commit();
 
