@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Event
  *
- * @property string $name
- * @property int vote_count
- * @property Item items
- * @property EventStatus status
+ * @property string      $name   Event Name
+ * @property Item        $items  HasManyRelationship with Items
+ * @property EventStatus $status Event status
  *
+ * @author Ahmed Saleh <a.s.alsalali@gmail.com>
  * @package App\Models
  */
 class Event extends Model
@@ -22,7 +22,6 @@ class Event extends Model
 
     protected $fillable = [
         'name',
-        'vote_count',
         'items',
         'status'
     ];
@@ -30,6 +29,8 @@ class Event extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class)->withPivot('event_id', 'item_id', 'vote_count');
+        return $this->belongsToMany(Item::class)
+            ->withPivot('event_id', 'item_id', 'vote_count')
+            ->orderBy('vote_count','desc');
     }
 }

@@ -42,5 +42,16 @@ class EventVoteTest extends TestCase
         $res = $response->json();
         $this->assertEquals(0, $res['items'][0]['pivot']['vote_count']);
         $this->assertEquals(0, $res['items'][1]['pivot']['vote_count']);
+
+
+        # Testing the oder of items, if it is based on vote count
+        $response = $this->put('/api/event/1/vote', ['item_id' => 2, 'action' => 'add']);
+        $response->assertStatus(200);
+
+        $response = $this->get('/api/event/1');
+        $res = $response->json();
+        $this->assertEquals(1, $res['items'][0]['pivot']['vote_count']);
+        $this->assertEquals(2, $res['items'][0]['id']);
+        $this->assertEquals(0, $res['items'][1]['pivot']['vote_count']);
     }
 }

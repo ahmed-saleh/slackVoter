@@ -13,16 +13,23 @@ use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * List Events with pagination
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function index()
     {
         return DB::table('events')->simplePaginate(10);
     }
 
+    /**
+     * Store an Event
+     *
+     * @param EventCreateRequest $request
+     * @return mixed|string
+     */
     public function store(EventCreateRequest $request)
     {
         $data = $request->all();
@@ -40,11 +47,12 @@ class EventController extends Controller
         return $event->id;
     }
 
+
     /**
-     * Display the specified resource.
+     * Get single Event with its relative information
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static|static[]
      */
     public function show($id)
     {
@@ -53,9 +61,12 @@ class EventController extends Controller
 
 
     /**
+     * Add items or remove them from an Event
+     *
      * @param EventUpdateRequest $request
      * @param $id
      * @return string
+     * //TODO: add an update function to Update other relative information about the event
      */
     public function update(EventUpdateRequest $request, $id)
     {
@@ -79,7 +90,13 @@ class EventController extends Controller
         return $event;
     }
 
-
+    /**
+     * Cast or remove a Vote for an item for an Event
+     *
+     * @param EventUpdateRequest $request
+     * @param $id
+     * @return string
+     */
     public function vote(EventUpdateRequest $request, $id)
     {
         $payload = $request->all();
