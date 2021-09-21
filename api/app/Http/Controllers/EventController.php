@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\EventActions;
 use App\Http\Requests\EventCreateRequest;
+use App\Http\Requests\EventUpdateRequest;
 use App\Models\Event;
+use App\Models\Item;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,11 +34,11 @@ class EventController extends Controller
             $event->save();
 
             DB::commit();
-            return $event->id;
         } catch (Exception $exception) {
             DB::rollBack();
             return $exception->getMessage();
         }
+        return $event->id;
     }
 
     /**
@@ -46,19 +49,35 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        return Event::findOrFail($id);
+        return Event::with('items')->findOrFail($id);
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param EventUpdateRequest $request
+     * @param $id
+     * @return string
      */
-    public function update(Request $request, $id)
+    public function update(EventUpdateRequest $request, $id)
     {
-        // out of scope
+        $payload = $request->all();
+        //TODO: handle this API and the correct error messages
+        $event = Event::findOrFail($id);
+        $item = Item::findOrFail($payload['item_id']);
+        try {
+            DB::beginTransaction();
+            if($payload['action'] === EventActions::Add) {
+                $event->items()->attach($item);
+            } else {
+                $event->items()->detach($item);
+            }
+            DB::commit();
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return $exception->getMessage();
+        }
+        return $event;
     }
 
     /**

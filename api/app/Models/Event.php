@@ -15,4 +15,10 @@ class Event extends Model
         'items',
         'status'
     ];
+
+
+    public function items()
+    {
+        return $this->belongsToMany(Item::class)->withPivot('event_id', 'item_id');
+    }
 }

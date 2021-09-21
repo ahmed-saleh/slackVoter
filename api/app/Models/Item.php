@@ -15,4 +15,9 @@ class Item extends Model
         'year',
         'img_url',
     ];
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class)->withPivot('item_id', 'event_id');
+    }
 }
