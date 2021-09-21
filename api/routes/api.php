@@ -8,3 +8,6 @@ Route::resources([
     'event'=> EventController::class,
     'item' =>  ItemController::class
 ]);
+
+
+Route::put('event/{id}/vote', [EventController::class, 'vote']);

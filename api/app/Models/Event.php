@@ -30,6 +30,6 @@ class Event extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class)->withPivot('event_id', 'item_id');
+        return $this->belongsToMany(Item::class)->withPivot('event_id', 'item_id', 'vote_count');
     }
 }

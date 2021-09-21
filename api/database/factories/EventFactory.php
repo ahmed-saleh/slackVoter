@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\EventStatus;
 use App\Models\Event;
+use App\Models\Item;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventFactory extends Factory

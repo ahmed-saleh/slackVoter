@@ -18,7 +18,7 @@ class CreateEventItemTable extends Migration
             $table->timestamps();
             $table->foreignId('event_id')->references('id')->on('events');
             $table->foreignId('item_id')->references('id')->on('items');
-            $table->tinyInteger('count')->default(0);
+            $table->tinyInteger('vote_count')->default(0);
         });
     }
 

@@ -80,14 +80,28 @@ class EventController extends Controller
         return $event;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function vote(EventUpdateRequest $request, $id)
     {
-        // out of scope
+        $payload = $request->all();
+        $event = Event::findOrFail($id);
+        $record = $event->items()->where('id', $payload['item_id']);
+        if(empty($record)){
+            response('Item is not In this event', 422);
+        }
+        try {
+            DB::beginTransaction();
+            if($payload['action'] === EventActions::Add) {
+                $event->items()->newPivotStatement()->where('id', $payload['item_id'])->increment('vote_count');
+            } else {
+                $event->items()->newPivotStatement()->where('id', $payload['item_id'])->decrement('vote_count');
+            }
+            DB::commit();
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return $exception->getMessage();
+        }
+        response('Vote updated', 200);
     }
 }
