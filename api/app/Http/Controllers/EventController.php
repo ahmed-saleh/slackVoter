@@ -8,7 +8,6 @@ use App\Http\Requests\EventUpdateRequest;
 use App\Models\Event;
 use App\Models\Item;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
