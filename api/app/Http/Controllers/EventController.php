@@ -118,6 +118,6 @@ class EventController extends Controller
             DB::rollBack();
             return $exception->getMessage();
         }
-        response('Vote updated', 200);
+        return response('Vote updated', 200);
     }
 }
