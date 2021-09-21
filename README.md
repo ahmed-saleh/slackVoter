@@ -41,6 +41,7 @@ docker network create lets-vote-network
 docker-compose up -d
 ```
  - note: add flag `-d` to run it in daemon mode, remove it to see the build log
+ - it might take a while for composer install
 
 4. Optionally, if you want to seed some data run the command:
 ```
