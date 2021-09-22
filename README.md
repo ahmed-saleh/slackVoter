@@ -4,10 +4,12 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
+- [Usage](#usage)
 
 ## About <a name = "about"></a>
 
-Simple project that allows creating Events and Items and voting on those items per event.
+Simple project that allows creating Events and Items. Then voting on those items per event.
+   
 
 ## Getting Started <a name = "getting_started"></a>
 
@@ -47,3 +49,24 @@ docker-compose up -d
 ```
 docker exec -it lets-vote-api bash -c "cd api/ && php artisan db:seed"
 ```
+
+
+## Usage <a name = "usage"></a>
+
+### How it works
+In order to vote you need to create the following:
+1. Event.
+2. Item(s) to be voted one.
+
+Then you will need to update the Event to add the desired Item(s) for voting.
+
+After that you may vote (or remove vote) per Item per Event.
+
+
+### APIs
+
+#### Events
+https://documenter.getpostman.com/view/17574897/UUxujAGV
+
+#### Items
+https://documenter.getpostman.com/view/17574897/UUxujAGY
