@@ -10,7 +10,7 @@ cd api
 
 cp .env.example .env
 
-VENDOR_DIR="/var/www/app/vendor"
+VENDOR_DIR="/var/www/app/api/vendor"
 
 
 # Run composer install in case it was not installed
