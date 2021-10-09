@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\EventStatus;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -13,13 +14,16 @@ class EventTest extends TestCase
 
     public function testEvent()
     {
+        $user = User::factory(1)->create()[0];
+        $newToken = $user->createToken('leToken');
+        [$id, $token] = explode('|', $newToken->plainTextToken);
         $incorrectPayload = [];
         $correctPayload = [
             'name' => 'N64 new game hooray',
             'status'=> EventStatus::Active(), // 1
         ];
 
-        $response = $this->postJson('/api/event', $incorrectPayload);
+        $response = $this->postJson('/api/event', $incorrectPayload, ['Authorization'=> "Bearer $token"]);
         $response->assertStatus(422);
 
         $response = $this->postJson('/api/event', $correctPayload);

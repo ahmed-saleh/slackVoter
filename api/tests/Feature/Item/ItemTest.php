@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\EventStatus;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -13,6 +14,9 @@ class ItemTest extends TestCase
 
     public function testItem()
     {
+        $user = User::factory(1)->create()[0];
+        $newToken = $user->createToken('leToken');
+        [$id, $token] = explode('|', $newToken->plainTextToken);
         $incorrectPayload = [];
         $correctPayload = [
             'name' => 'The Legend of Zelda: Ocarina of Time',
@@ -21,7 +25,7 @@ class ItemTest extends TestCase
             'img_url' => 'https://upload.wikimedia.org/wikipedia/en/8/8e/The_Legend_of_Zelda_Ocarina_of_Time_box_art.png'
         ];
 
-        $response = $this->postJson('/api/item', $incorrectPayload);
+        $response = $this->postJson('/api/item', $incorrectPayload,  ['Authorization'=> "Bearer $token"]);
         $response->assertStatus(422);
 
         $response = $this->postJson('/api/item', $correctPayload);

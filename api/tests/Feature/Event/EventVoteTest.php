@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\EventStatus;
 use App\Models\Event;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -15,6 +16,9 @@ class EventVoteTest extends TestCase
 
     public function testEvent()
     {
+        $user = User::factory(1)->create()[0];
+        $newToken = $user->createToken('leToken');
+        [$id, $token] = explode('|', $newToken->plainTextToken);
         $items = Item::factory(2)->create();
         $newItem = Item::factory(1)->create();
         $event = Event::factory(1)->create()[0];
@@ -23,7 +27,7 @@ class EventVoteTest extends TestCase
             $event->items()->save($singleItem);
         }
 
-        $response = $this->get('/api/event/1');
+        $response = $this->get('/api/event/1', ['Authorization'=> "Bearer $token"]);
         $res = $response->json();
         $this->assertEquals(2, count($res['items']));
 
