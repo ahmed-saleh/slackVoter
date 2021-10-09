@@ -24,7 +24,7 @@ class EventFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'N64 game voting!',
+            'name' => $this->faker->name,
             'status' => EventStatus::Active
         ];
     }
