@@ -36,7 +36,7 @@ cp .env.sample .env
 ```
 2. Create docker network, for the containers to connect
 ```
-docker network create lets-vote-network
+docker network create slack-voter-network
 ```
 3. Run the following command
 ```
