@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class Item
@@ -16,9 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @author Ahmed Saleh <a.s.alsalali@gmail.com>
  * @package App\Models
  */
-class Item extends Model
+class Item extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\EventStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class Event
@@ -16,9 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @author Ahmed Saleh <a.s.alsalali@gmail.com>
  * @package App\Models
  */
-class Event extends Model
+class Event extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',
