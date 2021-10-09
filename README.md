@@ -1,4 +1,4 @@
-# Lets Vote
+# Slack Voter
 
 ## Table of Contents
 
